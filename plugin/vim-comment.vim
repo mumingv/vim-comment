@@ -1,11 +1,11 @@
 "/***********************************************************
-" *     FileName: index.php
+" *     FileName: vim-comment.vim
 " *         Desc: 
 " *       Author: Jie Yin
 " *        Email: mumingv@163.com
 " *     HomePage: https://github.com/mumingv
 " *      Version: 0.0.1
-" *   LastChange: 2016-03-22 17:29:00
+" *   LastChange: 2016-03-22 17:57:54
 " *      History:
 " ***********************************************************/
 if exists('g:loaded_authorinfo')
@@ -91,7 +91,7 @@ function s:AddTitle()
     "判断是否支持多行注释
     let hasMul = 0
     let preChar = ''
-    let noTypeChar = ''
+    let spaceChar = ' '
 
     call setline('.','test mul')
     let oldline = getline('.')
@@ -99,13 +99,13 @@ function s:AddTitle()
     let newline = getline('.')
     if oldline != newline
         let hasMul = 1
-        let preChar = '#'
+        let preChar = '*'
     else
         exec 'normal '.s:t_mapleader.'cl'
         let newline = getline('.')
         if oldline == newline
             let hasMul = -1
-            let noTypeChar = '#'
+            let spaceChar = '*'
         endif
     endif
 
@@ -113,36 +113,36 @@ function s:AddTitle()
     call s:BeforeTitle()
 
     let firstLine = line('.')
-    call setline('.',noTypeChar.'=============================================================================')
+    call setline('.','/***********************************************************')
     normal o
-    call setline('.',noTypeChar.preChar.'     FileName: '.expand("%:t"))
+    call setline('.',spaceChar.preChar.'     FileName: '.expand("%:t"))
     normal o
-    call setline('.',noTypeChar.preChar.'         Desc: ')
+    call setline('.',spaceChar.preChar.'         Desc: ')
     let gotoLn = line('.')
     normal o
-    call setline('.',noTypeChar.preChar.'       Author: '.g:vimrc_author)
+    call setline('.',spaceChar.preChar.'       Author: '.g:vimrc_author)
     normal o
-    call setline('.',noTypeChar.preChar.'        Email: '.g:vimrc_email)
+    call setline('.',spaceChar.preChar.'        Email: '.g:vimrc_email)
     normal o
-    call setline('.',noTypeChar.preChar.'     HomePage: '.g:vimrc_homepage)
+    call setline('.',spaceChar.preChar.'     HomePage: '.g:vimrc_homepage)
     normal o
-    call setline('.',noTypeChar.preChar.'      Version: 0.0.1')
+    call setline('.',spaceChar.preChar.'      Version: 0.0.1')
     normal o
-    call setline('.',noTypeChar.preChar.'   LastChange: '.strftime("%Y-%m-%d %H:%M:%S"))
+    call setline('.',spaceChar.preChar.'   LastChange: '.strftime("%Y-%m-%d %H:%M:%S"))
     normal o
-    call setline('.',noTypeChar.preChar.'      History:')
+    call setline('.',spaceChar.preChar.'      History:')
     normal o
-    call setline('.',noTypeChar.'=============================================================================')
+    call setline('.',spaceChar.'***********************************************************/')
     let lastLine = line('.')
 
     "在最后一行之后做的事情
     call s:AfterTitle()
 
-    if hasMul == 1
-        exe 'normal '.firstLine.'Gv'.lastLine.'G'.s:t_mapleader.'cm'
-    else
-        exe 'normal '.firstLine.'Gv'.lastLine.'G'.s:t_mapleader.'cl'
-    endif
+"    if hasMul == 1
+"        exe 'normal '.firstLine.'Gv'.lastLine.'G'.s:t_mapleader.'cm'
+"    else
+"        exe 'normal '.firstLine.'Gv'.lastLine.'G'.s:t_mapleader.'cl'
+"    endif
 
     exe 'normal '.gotoLn.'G'
     startinsert!
